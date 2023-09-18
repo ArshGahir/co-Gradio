@@ -1,0 +1,3 @@
+cohere
+gradio
+python-dotenv
