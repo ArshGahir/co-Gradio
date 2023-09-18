@@ -13,9 +13,21 @@ personality = f"""You are a helpful and intelligent personal assistant. \
                 the end goal of a task. In this case, full autonomy means that you are able to modify given instructions \
                 as you see fit, in order to achieve the end goal."""
 
-def generate(input):
-    response = co.generate(input)
-    return(response)
+def summarize(input):
+    response = co.summarize(text = input, 
+                            length = "auto",
+                            format = "bullets",
+                            model = "command-nightly",
+                            extractiveness = "medium",
+                            temperature = 3,
+                            additional_command = personality
+                            )
+    return(response.summary)
 
-demo = gr.Interface(fn = generate, inputs = "text", outputs = "text")
+demo = gr.Interface(fn = summarize, 
+                    inputs = [gr.Textbox(label = "Text to Summarize", lines = 5)], 
+                    outputs = [gr.Textbox(label = "Summary", lines = 3)],
+                    title = "Text Summarization with Cohere's co.summarize() Endpoint",
+                    description = "Enter any text (250 words minimum) and get a concise summary!")
+
 demo.launch()
